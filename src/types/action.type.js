@@ -1,0 +1,1 @@
+export const ALTER_LOADING = 'ALTER_LOADING';
