@@ -22,8 +22,6 @@ const requester = async (service, options = {}) => {
         qs,
     };
 
-    console.log('config', config);
-
     let url = new URL(config.url);
     url.search = new URLSearchParams(config.qs);
 

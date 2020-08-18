@@ -26,6 +26,9 @@ const LoginController = () => {
                 email,
                 password,
             }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
         dispatch(alterLoading(false));
 
