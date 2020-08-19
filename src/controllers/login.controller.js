@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import LoginPage from '../pages/login.page';
-import { inDevelopment } from '../utils';
+import { 
+    inDevelopment, 
+    knownErrors, 
+    handlingRequest,
+    isLogged
+} from '../utils';
 import { alterLoading } from '../actions/loading.action';
 import requester from '../requester';
+import { setNotification } from '../actions/notifications.action';
+import Paths from '../router/paths';
 
 
 const LoginController = () => {
+    const [componentMount, setComponentMount] = useState(true);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+
+    const history = useHistory();
 
     const {
         login: loginService,
@@ -26,13 +37,22 @@ const LoginController = () => {
                 email,
                 password,
             }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
         });
         dispatch(alterLoading(false));
 
-        console.log(error, response);
+        handlingRequest(
+            error, response,
+            error => dispatch(setNotification({
+                message: knownErrors(error.message),
+            })),
+            () => dispatch(setNotification({
+                message: 'Ocorreu algum erro no sistema.',
+            })),
+            response => {
+                localStorage.setItem('token', response.token);
+                history.push(Paths.administration);
+            }
+        );
     };
 
     useEffect(() => {
@@ -44,6 +64,16 @@ const LoginController = () => {
         password,
         email,
     ]);
+
+    useEffect(() => {
+        if (componentMount) {
+            if (!isLogged()) {
+                history.push(Paths.administration);
+            }
+
+            setComponentMount(false);
+        }
+    }, [componentMount, history]);
 
     const data = {
         password,

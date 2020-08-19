@@ -8,10 +8,14 @@ const requester = async (service, options = {}) => {
     const {
         body = undefined,
         mode = undefined,
-        headers,
         responseType = 'json',
         qs = {},
     } = options;
+
+    const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers,
+    };
 
     const config = {
         method,
