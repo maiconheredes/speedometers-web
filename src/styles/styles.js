@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Form, Col } from 'react-bootstrap';
+import { Form, Col, Table } from 'react-bootstrap';
 
 
 export const ContainerPage = styled.div`
@@ -66,4 +66,10 @@ export const LogoutButton = styled.span`
     cursor: pointer;
     right: 15px;
     top: 50%;
+`;
+
+export const TableNoWrap = styled(Table)`
+    th, td {
+        white-space: nowrap;
+    }
 `;

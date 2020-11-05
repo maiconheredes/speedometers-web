@@ -104,7 +104,6 @@ export const authorization = () => {
     };
 };
 
-
 export const money = (value) => {
 	if (value <= 0 || isNaN(value)) return '-';
 	
@@ -112,4 +111,8 @@ export const money = (value) => {
 		minimumFractionDigits: 2,
 		maximumFractionDigits: 2,
 	})}`;
+};
+
+export const cloneObject = (object) => {
+    return JSON.parse(JSON.stringify(object));
 };

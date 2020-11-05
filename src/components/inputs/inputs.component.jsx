@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, InputGroup } from 'react-bootstrap';
+import { Form, InputGroup, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 import CurrencyInput from 'react-currency-input';
+import { useHistory } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import uuid from 'react-uuid';
 
 import {
     validateValue,
@@ -54,4 +58,59 @@ export const MoneyInput = ({
             />
         </InputGroup>
     </>
+};
+
+export const IconButton = ({
+    link, icon, tooltip,
+    onClick = () => { },
+}) => {
+    IconButton.propTypes = {
+        link: PropTypes.string,
+        icon: PropTypes.any,
+        tooltip: PropTypes.string,
+        onClick: PropTypes.func,
+    };
+
+    const [componentMount, setComponentMount] = useState(true);
+    const [key, setKey] = useState(null);
+
+    useEffect(() => {
+        if (componentMount) {
+            setKey(uuid());
+
+            setComponentMount(false);
+        }
+    }, [componentMount]);
+
+    return <OverlayTrigger
+        key={key}
+        placement={'bottom'}
+        overlay={<Tooltip
+            id={`tooltip-${key}`}
+            children={tooltip}
+        />}
+        children={link ? <LinkContainer
+            style={{ cursor: 'pointer' }}
+            to={link}
+            children={<FontAwesomeIcon
+                icon={icon}
+            />}
+        /> : <span
+            style={{ cursor: 'pointer' }}
+            onClick={onClick}
+        ><FontAwesomeIcon icon={icon} /></span>}
+    />
+};
+
+export const ButtonHistory = ({ label = ' ', path = '' }) => {
+    const history = useHistory();
+
+    return <Button
+        onClick={() => history.push(path)}
+        children={label}
+    />
+};
+
+export const BackButton = ({ path }) => {
+    return <ButtonHistory path={path} label={'Voltar'} />
 };

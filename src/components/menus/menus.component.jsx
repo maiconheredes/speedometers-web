@@ -10,12 +10,12 @@ export const MainMenu = () => {
         <Navbar.Collapse id={'responsive-navbar-nav'}>
             <Nav className={'flex-column'}>
                 <Nav.Item>
-                    <LinkContainer to={Paths.administration}>
+                    <LinkContainer to={Paths.administration.index}>
                         <Nav.Link>{'Dashboard'}</Nav.Link>
                     </LinkContainer>
                 </Nav.Item>
                 <Nav.Item>
-                    <LinkContainer to={Paths.expense}>
+                    <LinkContainer to={Paths.administration.expense.index}>
                         <Nav.Link>{'Despesas'}</Nav.Link>
                     </LinkContainer>
                 </Nav.Item>

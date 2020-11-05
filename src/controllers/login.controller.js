@@ -13,6 +13,7 @@ import { alterLoading } from '../actions/loading.action';
 import requester from '../requester';
 import { setNotification } from '../actions/notifications.action';
 import Paths from '../router/paths';
+import Messages from '../utils/messages';
 
 
 const LoginController = () => {
@@ -46,11 +47,11 @@ const LoginController = () => {
                 message: knownErrors(error.message),
             })),
             () => dispatch(setNotification({
-                message: 'Ocorreu algum erro no sistema.',
+                message: Messages.system.error,
             })),
             response => {
                 localStorage.setItem('token', response.token);
-                history.push(Paths.administration);
+                history.push(Paths.administration.index);
             }
         );
     };
@@ -67,8 +68,8 @@ const LoginController = () => {
 
     useEffect(() => {
         if (componentMount) {
-            if (!isLogged()) {
-                history.push(Paths.administration);
+            if (isLogged()) {
+                history.push(Paths.administration.index);
             }
 
             setComponentMount(false);

@@ -21,6 +21,7 @@ const LoginPage = ({ data, handlers }) => {
         <ContainerPage>
             <LoginForm onSubmit={event => handlers.login(event)}>
                 <InputText
+                    id={'email'}
                     onChange={event => handlers.setEmail(event.target.value)}
                     label={'E-mail'}
                     type={'email'}
@@ -28,6 +29,7 @@ const LoginPage = ({ data, handlers }) => {
                     required
                 />
                 <InputText
+                    id={'password'}
                     onChange={event => handlers.setPassword(event.target.value)}
                     label={'Senha'}
                     type={'password'}
