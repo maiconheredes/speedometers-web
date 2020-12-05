@@ -12,6 +12,7 @@ import {
     MainMenu,
     IconButton,
     ButtonHistory,
+    FullDate,
 } from '../components';
 import {
     money,
@@ -20,8 +21,8 @@ import Paths from '../router/paths';
 import { TableNoWrap } from '../styles/styles';
 
 
-const ExpensePage = ({ data, handlers }) => {
-    ExpensePage.propTypes = {
+const ListExpensePage = ({ data, handlers }) => {
+    ListExpensePage.propTypes = {
         data: PropTypes.object.isRequired,
         handlers: PropTypes.object.isRequired,
     };
@@ -36,6 +37,8 @@ const ExpensePage = ({ data, handlers }) => {
                     <th>{'Id'}</th>
                     <th>{'Título'}</th>
                     <th>{'Valor'}</th>
+                    <th>{'Parcelas'}</th>
+                    <th>{'Último Pagamento'}</th>
                     <th>{'Ações'}</th>
                 </tr>
             </thead>
@@ -44,12 +47,14 @@ const ExpensePage = ({ data, handlers }) => {
                     <td>{expense.id}</td>
                     <td>{expense.title}</td>
                     <td>{money(expense.value)}</td>
+                    <td>{expense.installment} / {expense.installments}</td>
+                    <td><FullDate stringDate={expense.lastPayment} /></td>
                     <td style={{ padding: '15px' }}>
                         <Row>
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
                                     icon={faFile}
-                                    link={Paths.administration.expense.find.replace(':idPayment', expense.id)}
+                                    link={Paths.administration.expense.show.replace(':idPayment', expense.id)}
                                     tooltip={'Visualizar'}
                                 />
                             </Col>
@@ -67,21 +72,21 @@ const ExpensePage = ({ data, handlers }) => {
                                     tooltip={'Excluir'}
                                 />
                             </Col>
-                            <Col lg={3} className={'text-center'}>
+                            {expense.installment !== expense.installments && <Col lg={3} className={'text-center'}>
                                 <IconButton
                                     onClick={() => handlers.confirmRemoveExpense(expense.id)}
                                     icon={faDollarSign}
                                     tooltip={'Pagar'}
                                 />
-                            </Col>
+                            </Col>}
                         </Row>
                     </td>
                 </tr>)}
             </tbody>
             <tfoot>
                 <tr>
-                    <th colSpan={2}>{'Valor Total'}</th>
-                    <th colSpan={2}>{money(data.totalValueExpenses)}</th>
+                    <th colSpan={3}>{'Valor Total'}</th>
+                    <th colSpan={3}>{money(data.totalValueExpenses)}</th>
                 </tr>
             </tfoot>
         </TableNoWrap>
@@ -92,4 +97,4 @@ const ExpensePage = ({ data, handlers }) => {
     </AdminContainer>
 };
 
-export default ExpensePage;
+export default ListExpensePage;

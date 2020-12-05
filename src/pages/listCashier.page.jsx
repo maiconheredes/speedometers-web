@@ -43,7 +43,7 @@ const ListCashierPage = ({ data, handlers }) => {
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
                                     icon={faFile}
-                                    link={Paths.administration.cashier.find.replace(':idCashier', cashier.id)}
+                                    link={Paths.administration.cashier.show.replace(':idCashier', cashier.id)}
                                     tooltip={'Visualizar'}
                                 />
                             </Col>

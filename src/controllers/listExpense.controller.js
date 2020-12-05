@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import ExpensePage from '../pages/expense.page';
+import ListExpensePage from '../pages/listExpense.page';
 import { inDevelopment, authorization, handlingRequest, knownErrors } from '../utils';
 import requester from '../requester';
 import { alterLoading } from '../actions/loading.action';
@@ -10,7 +10,7 @@ import { setNotification } from '../actions/notifications.action';
 import Messages from '../utils/messages';
 
 
-const ExpenseController = () => {
+const ListExpenseController = () => {
     const [totalValueExpenses, setTotalValueExpenses] = useState(0);
     const [expenses, setExpenses] = useState([]);
 
@@ -122,7 +122,7 @@ const ExpenseController = () => {
         confirmRemoveExpense,
     };
 
-    return <ExpensePage data={data} handlers={handlers} />
+    return <ListExpensePage data={data} handlers={handlers} />
 };
 
-export default ExpenseController;
+export default ListExpenseController;

@@ -28,7 +28,7 @@ const EditCashierPage = ({ data, handlers }) => {
             />
             <Form.Row>
                 <Col>
-                    <BackButton path={Paths.administration.expense.index} />
+                    <BackButton path={Paths.administration.cashier.index} />
                 </Col>
                 <Col>
                     <Button
