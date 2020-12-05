@@ -6,13 +6,13 @@ import {
     AdminContainer, 
     MainMenu, 
     BackButton, 
-    ExpensePartialForm
+    CashierPartialForm
 } from '../components';
 import Paths from '../router/paths';
 
 
-const EditExpensePage = ({ data, handlers }) => {
-    EditExpensePage.propTypes = {
+const EditCashierPage = ({ data, handlers }) => {
+    EditCashierPage.propTypes = {
         handlers: PropTypes.object,
         data: PropTypes.object,
     };
@@ -20,9 +20,9 @@ const EditExpensePage = ({ data, handlers }) => {
     return <AdminContainer
         menu={<MainMenu />}
     >
-        <h2>{'Editar despesa'}</h2>
-        <Form onSubmit={event => handlers.editExpense(event)}>
-            <ExpensePartialForm
+        <h2>{'Editar caixa'}</h2>
+        <Form onSubmit={event => handlers.editCashier(event)}>
+            <CashierPartialForm
                 handlers={handlers}
                 data={data}
             />
@@ -42,4 +42,4 @@ const EditExpensePage = ({ data, handlers }) => {
     </AdminContainer>
 };
 
-export default EditExpensePage;
+export default EditCashierPage;

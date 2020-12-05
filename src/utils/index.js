@@ -105,7 +105,7 @@ export const authorization = () => {
 };
 
 export const money = (value) => {
-	if (value <= 0 || isNaN(value)) return '-';
+	if (isNaN(value)) return '-';
 	
 	return `R$ ${(value).toLocaleString('pt-BR', {
 		minimumFractionDigits: 2,

@@ -2,34 +2,34 @@ import React, { useReducer, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import EditExpensePage from '../pages/editExpense.page';
 import EntityReducer from '../reducers/entity.reducer';
 import { cloneObject, authorization, handlingRequest, knownErrors } from '../utils';
-import ExpenseState from '../states/expense.state';
 import { UPDATE_ENTITY_FIELD, UPDATE_ENTITY } from '../types/action.type';
 import { alterLoading } from '../actions/loading.action';
 import requester from '../requester';
 import { setNotification } from '../actions/notifications.action';
 import Messages from '../utils/messages';
 import Paths from '../router/paths';
+import CashierState from '../states/cashier.state';
+import EditCashierPage from '../pages/editCashier.page';
 
 
-const EditExpenseController = () => {
-    const [expense, expenseControl] = useReducer(EntityReducer, cloneObject(ExpenseState));
+const EditCashierController = () => {
+    const [cashier, cashierControl] = useReducer(EntityReducer, cloneObject(CashierState));
 
     const dispatch = useDispatch();
     const history = useHistory();
 
     const {
-        idPayment,
+        idCashier,
     } = useParams();
 
     const {
-        payment: paymentService,
+        cashier: cashierService,
     } = useSelector(state => state.ServicesReducer);
 
     const setField = (field, value) => {
-        expenseControl({
+        cashierControl({
             type: UPDATE_ENTITY_FIELD,
             payload: {
                 field,
@@ -38,18 +38,18 @@ const EditExpenseController = () => {
         });
     };
 
-    const loadExpense = useCallback(async () => {
-        let newPaymentService = {
-            ...paymentService,
+    const findCashier = useCallback(async () => {
+        let newCashierService = {
+            ...cashierService,
         };
 
-        newPaymentService.find = {
-            ...newPaymentService.find,
-            endpoint: newPaymentService.find.endpoint.replace('{id}', idPayment),
+        newCashierService.find = {
+            ...newCashierService.find,
+            endpoint: newCashierService.find.endpoint.replace('{id}', idCashier),
         };
 
         dispatch(alterLoading(true));
-        const [error, response] = await requester(newPaymentService.find, {
+        const [error, response] = await requester(newCashierService.find, {
             headers: {
                 ...authorization(),
             },
@@ -64,32 +64,30 @@ const EditExpenseController = () => {
             () => dispatch(setNotification({
                 message: Messages.system.error,
             })),
-            expense => {
-                expenseControl({
+            cashier => {
+                cashierControl({
                     type: UPDATE_ENTITY,
-                    payload: expense,
+                    payload: cashier,
                 });
             }
         );
-    }, [dispatch, idPayment, paymentService]);
+    }, [dispatch, idCashier, cashierService]);
 
-    
-
-    const editExpense = async (event) => {
+    const editCashier = async (event) => {
         if (event) event.preventDefault();
 
-        let newPaymentService = {
-            ...paymentService,
+        let newCashierService = {
+            ...cashierService,
         };
 
-        newPaymentService.edit = {
-            ...newPaymentService.edit,
-            endpoint: newPaymentService.edit.endpoint.replace('{id}', idPayment),
+        newCashierService.edit = {
+            ...newCashierService.edit,
+            endpoint: newCashierService.edit.endpoint.replace('{id}', idCashier),
         };
 
         dispatch(alterLoading(true));
-        const [error, response] = await requester(newPaymentService.edit, {
-            body: JSON.stringify(expense),
+        const [error, response] = await requester(newCashierService.edit, {
+            body: JSON.stringify(cashier),
             headers: {
                 ...authorization(),
             },
@@ -106,27 +104,28 @@ const EditExpenseController = () => {
             })),
             () => {
                 dispatch(setNotification({
-                    message: 'Despesa editada com sucesso!',
+                    message: 'Caixa editado com sucesso!',
                 }));
-                history.push(Paths.administration.expense.index);
+
+                history.push(Paths.administration.cashier.index);
             }
         );
     };
 
     useEffect(() => {
-        loadExpense();
-    }, [loadExpense]);
+        findCashier();
+    }, [findCashier]);
 
     const data = {
-        expense,
+        cashier,
     };
 
     const handlers = {
-        editExpense,
+        editCashier,
         setField,
     };
 
-    return <EditExpensePage data={data} handlers={handlers} />
+    return <EditCashierPage data={data} handlers={handlers} />
 };
 
-export default EditExpenseController;
+export default EditCashierController;

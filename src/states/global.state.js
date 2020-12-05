@@ -1,10 +1,10 @@
 const GlobalState = {
     environment: {
         prod: {
-            'speedometer-api': 'http://nevesvelocimetros.speedometers.com'
+            'speedometer-api': process.env.REACT_APP_PROD_DOMAIN,
         },
         dev: {
-            'speedometer-api': 'http://nevesvelocimetros.speedometers.com'
+            'speedometer-api': 'http://localhost',
         },
     },
 };

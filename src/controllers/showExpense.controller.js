@@ -28,13 +28,13 @@ const ShowExpenseController = () => {
             ...paymentService,
         };
 
-        newPaymentService.show = {
-            ...newPaymentService.show,
-            endpoint: newPaymentService.show.endpoint.replace('{id}', idPayment),
+        newPaymentService.find = {
+            ...newPaymentService.find,
+            endpoint: newPaymentService.find.endpoint.replace('{id}', idPayment),
         };
 
         dispatch(alterLoading(true));
-        const [error, response] = await requester(newPaymentService.show, {
+        const [error, response] = await requester(newPaymentService.find, {
             headers: {
                 ...authorization(),
             },

@@ -4,6 +4,9 @@ const ExpenseState = {
     value: null,
     operation: null,
     deleted: null,
+    installment: null,
+    installments: 1,
+    lastPayment: null,
     createdAt: null,
     updatedAt: null,
 };

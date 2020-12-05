@@ -31,6 +31,25 @@ export const InputText = ({
     </Form.Group>
 };
 
+export const InputNumber = ({
+    id, label = ' ',
+    type = 'number',
+    ...rest
+}) => {
+    InputNumber.propTypes = {
+        id: PropTypes.string.isRequired,
+        label: PropTypes.string,
+    };
+
+    return <Form.Group id={id}>
+        <Form.Label>{label}</Form.Label>
+        <Form.Control {...rest}
+            type={type}
+            value={validateValue(rest.value)}
+        />
+    </Form.Group>
+};
+
 export const MoneyInput = ({
     label = ' ', onChange = () => { },
     onChangeValue = () => { },

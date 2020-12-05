@@ -1,27 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    Col, Row,
-} from 'react-bootstrap';
-import {
-    faFile, faEdit, faTimes, faDollarSign,
-} from '@fortawesome/free-solid-svg-icons';
+import { Row, Col } from 'react-bootstrap';
+import { faFile, faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import {
-    AdminContainer,
+import { 
+    AdminContainer, 
     MainMenu,
     IconButton,
-    ButtonHistory,
+    ButtonHistory
 } from '../components';
-import {
-    money,
-} from '../utils';
 import Paths from '../router/paths';
 import { TableNoWrap } from '../styles/styles';
+import { money } from '../utils';
 
 
-const ExpensePage = ({ data, handlers }) => {
-    ExpensePage.propTypes = {
+const ListCashierPage = ({ data, handlers }) => {
+    ListCashierPage.propTypes = {
         data: PropTypes.object.isRequired,
         handlers: PropTypes.object.isRequired,
     };
@@ -29,7 +23,7 @@ const ExpensePage = ({ data, handlers }) => {
     return <AdminContainer
         menu={<MainMenu />}
     >
-        <h2>{'Despesas'}</h2>
+        <h2>{'Caixas'}</h2>
         <TableNoWrap striped bordered hover responsive>
             <thead>
                 <tr>
@@ -40,38 +34,31 @@ const ExpensePage = ({ data, handlers }) => {
                 </tr>
             </thead>
             <tbody>
-                {data.expenses.map(expense => <tr key={expense.id}>
-                    <td>{expense.id}</td>
-                    <td>{expense.title}</td>
-                    <td>{money(expense.value)}</td>
+                {data.cashiers.map(cashier => <tr key={cashier.id}>
+                    <td>{cashier.id}</td>
+                    <td>{cashier.title}</td>
+                    <td>{money(cashier.totalValue)}</td>
                     <td style={{ padding: '15px' }}>
                         <Row>
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
                                     icon={faFile}
-                                    link={Paths.administration.expense.find.replace(':idPayment', expense.id)}
+                                    link={Paths.administration.cashier.find.replace(':idCashier', cashier.id)}
                                     tooltip={'Visualizar'}
                                 />
                             </Col>
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
                                     icon={faEdit}
-                                    link={Paths.administration.expense.edit.replace(':idPayment', expense.id)}
+                                    link={Paths.administration.cashier.edit.replace(':idCashier', cashier.id)}
                                     tooltip={'Editar'}
                                 />
                             </Col>
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
-                                    onClick={() => handlers.confirmRemoveExpense(expense.id)}
+                                    onClick={() => handlers.confirmRemoveCashier(cashier.id)}
                                     icon={faTimes}
                                     tooltip={'Excluir'}
-                                />
-                            </Col>
-                            <Col lg={3} className={'text-center'}>
-                                <IconButton
-                                    onClick={() => handlers.confirmRemoveExpense(expense.id)}
-                                    icon={faDollarSign}
-                                    tooltip={'Pagar'}
                                 />
                             </Col>
                         </Row>
@@ -81,15 +68,15 @@ const ExpensePage = ({ data, handlers }) => {
             <tfoot>
                 <tr>
                     <th colSpan={2}>{'Valor Total'}</th>
-                    <th colSpan={2}>{money(data.totalValueExpenses)}</th>
+                    <th colSpan={2}>{money(data.totalValueCashiers)}</th>
                 </tr>
             </tfoot>
         </TableNoWrap>
-        <ButtonHistory 
-            path={Paths.administration.expense.create}
-            label={'Criar despesa'}
+        <ButtonHistory
+            path={Paths.administration.cashier.create}
+            label={'Criar caixa'}
         />
     </AdminContainer>
 };
 
-export default ExpensePage;
+export default ListCashierPage;

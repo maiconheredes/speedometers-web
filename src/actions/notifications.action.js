@@ -11,6 +11,7 @@ export const setNotification = ({
     message,
     onConfirm = () => { },
     onClose = () => { },
+    close = true,
 }) => {
     return {
         type: SET_NOTIFICATION,
@@ -20,6 +21,7 @@ export const setNotification = ({
             message,
             onConfirm,
             onClose,
+            close,
         }
     };
 };

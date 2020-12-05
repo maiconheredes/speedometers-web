@@ -7,7 +7,8 @@ import {
     MainMenu,
     InputText,
     MoneyInput,
-    BackButton
+    BackButton,
+    InputNumber
 } from '../components';
 import Paths from '../router/paths';
 
@@ -40,6 +41,24 @@ const ShowExpensePage = ({ data, handlers }) => {
                     <MoneyInput
                         value={expense.value}
                         label={'Valor'}
+                        readOnly
+                    />
+                </Col>
+            </Form.Row>
+            <Form.Row>
+                <Col lg={6}>
+                    <InputNumber
+                        value={expense.installments}
+                        id={'payment-installments'}
+                        label={'Parcelas'}
+                        readOnly
+                    />
+                </Col>
+                <Col>
+                    <InputNumber
+                        value={expense.installment}
+                        id={'payment-installment'}
+                        label={'Parcelas faturadas'}
                         readOnly
                     />
                 </Col>

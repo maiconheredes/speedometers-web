@@ -24,6 +24,7 @@ const ExpenseController = () => {
 
     const confirmRemoveExpense = (expenseId) => {
         dispatch(setNotification({
+            close: false,
             message: `Confirmar remoção da despesa ${expenseId}?`,
             onConfirm: () => removeExpense(expenseId),
         }));

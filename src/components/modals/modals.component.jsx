@@ -56,8 +56,12 @@ export const NotificationsModals = () => {
             {notification.message ? <Modal.Body>{notification.message}</Modal.Body> : <></>}
 
             <Modal.Footer>
-                <Button variant={'secondary'} onClick={event => onClose(event, notification)}>{'Fechar'}</Button>
-                <Button variant={'primary'} onClick={event => onConfirm(event, notification)}>{'Ok'}</Button>
+                {notification.close ? <>
+                    <Button variant={'secondary'} onClick={() => dispatch(unsetNotification(notification))}>{'Fechar'}</Button>
+                </> : <>    
+                    <Button variant={'success'} onClick={event => onConfirm(event, notification)}>{'Sim'}</Button>
+                    <Button variant={'danger'} onClick={event => onClose(event, notification)}>{'Não'}</Button>
+                </>}
             </Modal.Footer>
         </Modal>)}
     </>

@@ -5,6 +5,38 @@ const ServicesState = {
         source: 'speedometer-api',
         port: 80,
     },
+    cashier: {
+        index: {
+            method: 'get',
+            endpoint: 'cashiers',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        create: {
+            method: 'post',
+            endpoint: 'cashiers',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        edit: {
+            method: 'put',
+            endpoint: 'cashiers',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        find: {
+            method: 'get',
+            endpoint: 'cashiers/{id}',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        remove: {
+            method: 'delete',
+            endpoint: 'cashiers/{id}',
+            source: 'speedometer-api',
+            port: 80,
+        },
+    },
     expense: {
         index: {
             method: 'get',
@@ -22,7 +54,7 @@ const ServicesState = {
         },
     },
     payment: {
-        show: {
+        find: {
             method: 'get',
             endpoint: 'payments/{id}',
             source: 'speedometer-api',

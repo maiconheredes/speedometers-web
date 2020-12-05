@@ -15,6 +15,11 @@ export const MainMenu = () => {
                     </LinkContainer>
                 </Nav.Item>
                 <Nav.Item>
+                    <LinkContainer to={Paths.administration.cashier.index}>
+                        <Nav.Link>{'Caixas'}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
+                <Nav.Item>
                     <LinkContainer to={Paths.administration.expense.index}>
                         <Nav.Link>{'Despesas'}</Nav.Link>
                     </LinkContainer>
