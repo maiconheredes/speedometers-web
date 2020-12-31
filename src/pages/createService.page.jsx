@@ -11,8 +11,8 @@ import {
 import Paths from '../router/paths';
 
 
-const CreateExpensePage = ({ data, handlers }) => {
-    CreateExpensePage.propTypes = {
+const CreateServicePage = ({ data, handlers }) => {
+    CreateServicePage.propTypes = {
         data: PropTypes.object.isRequired,
         handlers: PropTypes.object.isRequired,
     };
@@ -20,15 +20,16 @@ const CreateExpensePage = ({ data, handlers }) => {
     return <AdminContainer
         menu={<MainMenu />}
     >
-        <h2>{'Criar despesa'}</h2>
-        <Form onSubmit={event => handlers.createExpense(event)}>
+        <h2>{'Criar serviço'}</h2>
+        <Form onSubmit={event => handlers.createService(event)}>
             <PaymentPartialForm
                 handlers={handlers}
-                payment={data.expense}
+                payment={data.service.payment}
+                fieldPrefix={'payment.'}
             />
             <Form.Row>
                 <Col>
-                    <BackButton path={Paths.administration.expense.index} />
+                    <BackButton path={Paths.administration.service.index} />
                 </Col>
                 <Col>
                     <Button
@@ -43,4 +44,4 @@ const CreateExpensePage = ({ data, handlers }) => {
     </AdminContainer>
 };
 
-export default CreateExpensePage;
+export default CreateServicePage;

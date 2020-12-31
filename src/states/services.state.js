@@ -53,6 +53,14 @@ const ServicesState = {
             port: 80,
         },
     },
+    paymentHistories: {
+        create: {
+            method: 'post',
+            endpoint: 'payment-histories',
+            source: 'speedometer-api',
+            port: 80,
+        },
+    },
     payment: {
         find: {
             method: 'get',
@@ -75,6 +83,38 @@ const ServicesState = {
         remove: {
             method: 'delete',
             endpoint: 'payments/{id}',
+            source: 'speedometer-api',
+            port: 80,
+        },
+    },
+    service: {
+        index: {
+            method: 'get',
+            endpoint: 'services',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        create: {
+            method: 'post',
+            endpoint: 'services',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        edit: {
+            method: 'put',
+            endpoint: 'services',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        find: {
+            method: 'get',
+            endpoint: 'services/{id}',
+            source: 'speedometer-api',
+            port: 80,
+        },
+        remove: {
+            method: 'delete',
+            endpoint: 'services/{id}',
             source: 'speedometer-api',
             port: 80,
         },

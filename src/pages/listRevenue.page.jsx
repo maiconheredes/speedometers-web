@@ -22,8 +22,8 @@ import Paths from '../router/paths';
 import { TableNoWrap } from '../styles/styles';
 
 
-const ListExpensePage = ({ data, handlers }) => {
-    ListExpensePage.propTypes = {
+const ListRevenuePage = ({ data, handlers }) => {
+    ListRevenuePage.propTypes = {
         data: PropTypes.object.isRequired,
         handlers: PropTypes.object.isRequired,
     };
@@ -31,7 +31,7 @@ const ListExpensePage = ({ data, handlers }) => {
     return <AdminContainer
         menu={<MainMenu />}
     >
-        <h2>{'Despesas'}</h2>
+        <h2>{'Receitas'}</h2>
         <TableNoWrap striped bordered hover responsive>
             <thead>
                 <tr>
@@ -39,42 +39,42 @@ const ListExpensePage = ({ data, handlers }) => {
                     <th>{'Título'}</th>
                     <th>{'Valor'}</th>
                     <th>{'Parcelas'}</th>
-                    <th>{'Último Pagamento'}</th>
+                    <th>{'Último Recebimento'}</th>
                     <th>{'Ações'}</th>
                 </tr>
             </thead>
             <tbody>
-                {data.expenses.map(expense => <tr key={expense.id}>
-                    <td>{expense.id}</td>
-                    <td>{expense.title}</td>
-                    <td>{money(expense.value)}</td>
-                    <td>{expense.installment} / {expense.installments}</td>
-                    <td><FullDate stringDate={expense.lastPayment} /></td>
+                {data.revenues.map(revenue => <tr key={revenue.id}>
+                    <td>{revenue.id}</td>
+                    <td>{revenue.title}</td>
+                    <td>{money(revenue.value)}</td>
+                    <td>{revenue.installment} / {revenue.installments}</td>
+                    <td><FullDate stringDate={revenue.lastPayment} /></td>
                     <td style={{ padding: '15px' }}>
                         <Row>
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
                                     icon={faFile}
-                                    link={Paths.administration.expense.show.replace(':idPayment', expense.id)}
+                                    link={Paths.administration.revenue.show.replace(':idPayment', revenue.id)}
                                     tooltip={'Visualizar'}
                                 />
                             </Col>
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
                                     icon={faEdit}
-                                    link={Paths.administration.expense.edit.replace(':idPayment', expense.id)}
+                                    link={Paths.administration.revenue.edit.replace(':idPayment', revenue.id)}
                                     tooltip={'Editar'}
                                 />
                             </Col>
                             <Col lg={3} className={'text-center'}>
                                 <IconButton
-                                    onClick={() => handlers.confirmRemoveExpense(expense.id)}
+                                    onClick={() => handlers.confirmRemoveRevenue(revenue.id)}
                                     icon={faTimes}
                                     tooltip={'Excluir'}
                                 />
                             </Col>
-                            {expense.installment !== expense.installments && <Col lg={3} className={'text-center'}>
-                                <ExecutePayment payment={expense} tooltip={'Pagar'} callBackFunc={handlers.loadExpenses} />
+                            {revenue.installment !== revenue.installments && <Col lg={3} className={'text-center'}>
+                                <ExecutePayment payment={revenue} tooltip={'Receber'} callBackFunc={handlers.loadRevenues} />
                             </Col>}
                         </Row>
                     </td>
@@ -83,15 +83,15 @@ const ListExpensePage = ({ data, handlers }) => {
             <tfoot>
                 <tr>
                     <th colSpan={3}>{'Valor Total'}</th>
-                    <th colSpan={3}>{money(data.totalValueExpenses)}</th>
+                    <th colSpan={3}>{money(data.totalValueRevenues)}</th>
                 </tr>
             </tfoot>
         </TableNoWrap>
         <ButtonHistory 
-            path={Paths.administration.expense.create}
-            label={'Criar despesa'}
+            path={Paths.administration.revenue.create}
+            label={'Criar receita'}
         />
     </AdminContainer>
 };
 
-export default ListExpensePage;
+export default ListRevenuePage;

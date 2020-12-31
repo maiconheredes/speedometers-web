@@ -20,6 +20,16 @@ export const MainMenu = () => {
                     </LinkContainer>
                 </Nav.Item>
                 <Nav.Item>
+                    <LinkContainer to={Paths.administration.service.index}>
+                        <Nav.Link>{'Serviços'}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
+                <Nav.Item>
+                    <LinkContainer to={Paths.administration.revenue.index}>
+                        <Nav.Link>{'Receitas'}</Nav.Link>
+                    </LinkContainer>
+                </Nav.Item>
+                <Nav.Item>
                     <LinkContainer to={Paths.administration.expense.index}>
                         <Nav.Link>{'Despesas'}</Nav.Link>
                     </LinkContainer>

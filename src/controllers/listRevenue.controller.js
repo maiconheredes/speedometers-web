@@ -2,36 +2,36 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import ListExpensePage from '../pages/listExpense.page';
 import { inDevelopment, authorization, handlingRequest, knownErrors } from '../utils';
 import requester from '../requester';
 import { alterLoading } from '../actions/loading.action';
 import { setNotification } from '../actions/notifications.action';
 import Messages from '../utils/messages';
+import ListRevenuePage from '../pages/listRevenue.page';
 
 
-const ListExpenseController = () => {
-    const [totalValueExpenses, setTotalValueExpenses] = useState(0);
-    const [expenses, setExpenses] = useState([]);
+const ListRevenueController = () => {
+    const [totalValueRevenues, setTotalValueRevenues] = useState(0);
+    const [revenues, setRevenues] = useState([]);
 
     const {
-        expense: expenseService,
+        revenue: revenueService,
         payment: paymentService,
     } = useSelector(state => state.ServicesReducer);
 
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const confirmRemoveExpense = (expenseId) => {
+    const confirmRemoveRevenue = (revenueId) => {
         dispatch(setNotification({
             close: false,
-            message: `Confirmar remoção da despesa ${expenseId}?`,
-            onConfirm: () => removeExpense(expenseId),
+            message: `Confirmar remoção da receita ${revenueId}?`,
+            onConfirm: () => removeRevenue(revenueId),
         }));
     };
 
-    const removeExpense = async (expenseId) => {
-        if (!expenseId) return;
+    const removeRevenue = async (revenueId) => {
+        if (!revenueId) return;
 
         const newPaymentService = {
             ...paymentService,
@@ -40,7 +40,7 @@ const ListExpenseController = () => {
         newPaymentService.remove = {
             ...newPaymentService.remove,
             endpoint: newPaymentService.remove.endpoint
-                .replace('{id}', expenseId),
+                .replace('{id}', revenueId),
         };
 
         dispatch(alterLoading(true));
@@ -62,18 +62,18 @@ const ListExpenseController = () => {
             response => {
                 if (response) {
                     dispatch(setNotification({
-                        message: 'Despesa removida com sucesso!',
+                        message: 'Receita removida com sucesso!',
                     }));
 
-                    loadExpenses();
+                    loadRevenues();
                 }
             }
         );
     };
 
-    const loadExpenses = useCallback(async () => {
+    const loadRevenues = useCallback(async () => {
         dispatch(alterLoading(true));
-        const [error, response] = await requester(expenseService.index, {
+        const [error, response] = await requester(revenueService.index, {
             headers: {
                 ...authorization(),
             },
@@ -88,42 +88,43 @@ const ListExpenseController = () => {
             () => dispatch(setNotification({
                 message: Messages.system.error,
             })),
-            expenses => {
-                let totalValueExpenses = 0;
-                expenses.map(expense => totalValueExpenses += expense.value);
+            revenues => {
+                let totalValueRevenues = 0;
 
-                setExpenses(expenses);
-                setTotalValueExpenses(totalValueExpenses);
+                revenues.forEach(revenue => totalValueRevenues += revenue.value);
+
+                setRevenues(revenues);
+                setTotalValueRevenues(totalValueRevenues);
             }
         );
-    }, [dispatch, expenseService]);
+    }, [dispatch, revenueService]);
 
     useEffect(() => {
         if (inDevelopment()) {
-            console.log('totalValueExpenses', totalValueExpenses);
-            console.log('expenses', expenses);
+            console.log('totalValueRevenues', totalValueRevenues);
+            console.log('revenues', revenues);
         }
     }, [
-        totalValueExpenses,
-        expenses,
+        totalValueRevenues,
+        revenues,
     ]);
 
     useEffect(() => {
-        loadExpenses();
-    }, [loadExpenses]);
+        loadRevenues();
+    }, [loadRevenues]);
 
     const data = {
-        totalValueExpenses,
-        expenses,
+        totalValueRevenues,
+        revenues,
         history,
     };
 
     const handlers = {
-        confirmRemoveExpense,
-        loadExpenses,
+        confirmRemoveRevenue,
+        loadRevenues,
     };
 
-    return <ListExpensePage data={data} handlers={handlers} />
+    return <ListRevenuePage data={data} handlers={handlers} />
 };
 
-export default ListExpenseController;
+export default ListRevenueController;

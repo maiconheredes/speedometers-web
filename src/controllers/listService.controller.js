@@ -2,49 +2,48 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import ListExpensePage from '../pages/listExpense.page';
 import { inDevelopment, authorization, handlingRequest, knownErrors } from '../utils';
 import requester from '../requester';
 import { alterLoading } from '../actions/loading.action';
 import { setNotification } from '../actions/notifications.action';
 import Messages from '../utils/messages';
+import ListServicePage from '../pages/listService.page';
 
 
-const ListExpenseController = () => {
-    const [totalValueExpenses, setTotalValueExpenses] = useState(0);
-    const [expenses, setExpenses] = useState([]);
+const ListServiceController = () => {
+    const [totalValueServices, setTotalValueServices] = useState(0);
+    const [services, setServices] = useState([]);
 
     const {
-        expense: expenseService,
-        payment: paymentService,
+        service,
     } = useSelector(state => state.ServicesReducer);
 
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const confirmRemoveExpense = (expenseId) => {
+    const confirmRemoveService = (serviceId) => {
         dispatch(setNotification({
             close: false,
-            message: `Confirmar remoção da despesa ${expenseId}?`,
-            onConfirm: () => removeExpense(expenseId),
+            message: `Confirmar remoção do serviço ${serviceId}?`,
+            onConfirm: () => removeService(serviceId),
         }));
     };
 
-    const removeExpense = async (expenseId) => {
-        if (!expenseId) return;
+    const removeService = async (serviceId) => {
+        if (!serviceId) return;
 
-        const newPaymentService = {
-            ...paymentService,
+        const newService = {
+            ...service,
         };
 
-        newPaymentService.remove = {
-            ...newPaymentService.remove,
-            endpoint: newPaymentService.remove.endpoint
-                .replace('{id}', expenseId),
+        newService.remove = {
+            ...newService.remove,
+            endpoint: newService.remove.endpoint
+                .replace('{id}', serviceId),
         };
 
         dispatch(alterLoading(true));
-        const [error, response] = await requester(newPaymentService.remove, {
+        const [error, response] = await requester(newService.remove, {
             headers: {
                 ...authorization(),
             },
@@ -62,18 +61,18 @@ const ListExpenseController = () => {
             response => {
                 if (response) {
                     dispatch(setNotification({
-                        message: 'Despesa removida com sucesso!',
+                        message: 'Serviço removido com sucesso!',
                     }));
 
-                    loadExpenses();
+                    loadServices();
                 }
             }
         );
     };
 
-    const loadExpenses = useCallback(async () => {
+    const loadServices = useCallback(async () => {
         dispatch(alterLoading(true));
-        const [error, response] = await requester(expenseService.index, {
+        const [error, response] = await requester(service.index, {
             headers: {
                 ...authorization(),
             },
@@ -88,42 +87,43 @@ const ListExpenseController = () => {
             () => dispatch(setNotification({
                 message: Messages.system.error,
             })),
-            expenses => {
-                let totalValueExpenses = 0;
-                expenses.map(expense => totalValueExpenses += expense.value);
+            services => {
+                let totalValueServices = 0;
 
-                setExpenses(expenses);
-                setTotalValueExpenses(totalValueExpenses);
+                services.forEach(service => totalValueServices += service.payment.value);
+
+                setServices(services);
+                setTotalValueServices(totalValueServices);
             }
         );
-    }, [dispatch, expenseService]);
+    }, [dispatch, service]);
 
     useEffect(() => {
         if (inDevelopment()) {
-            console.log('totalValueExpenses', totalValueExpenses);
-            console.log('expenses', expenses);
+            console.log('totalValueServices', totalValueServices);
+            console.log('services', services);
         }
     }, [
-        totalValueExpenses,
-        expenses,
+        totalValueServices,
+        services,
     ]);
 
     useEffect(() => {
-        loadExpenses();
-    }, [loadExpenses]);
+        loadServices();
+    }, [loadServices]);
 
     const data = {
-        totalValueExpenses,
-        expenses,
+        totalValueServices,
+        services,
         history,
     };
 
     const handlers = {
-        confirmRemoveExpense,
-        loadExpenses,
+        confirmRemoveService,
+        loadServices,
     };
 
-    return <ListExpensePage data={data} handlers={handlers} />
+    return <ListServicePage data={data} handlers={handlers} />
 };
 
-export default ListExpenseController;
+export default ListServiceController;

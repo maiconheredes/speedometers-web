@@ -32,6 +32,7 @@ const CreateCashierPage = ({ data, handlers }) => {
                 </Col>
                 <Col>
                     <Button
+                        variant={'success'}
                         style={{float: 'right'}}
                         children={'Cadastrar'}
                         type={'submit'}

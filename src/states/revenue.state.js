@@ -1,8 +1,8 @@
 import PaymentState from './payment.state';
 
 
-const ExpenseState = {
+const RevenueState = {
     ...PaymentState,
 };
 
-export default ExpenseState;
+export default RevenueState;

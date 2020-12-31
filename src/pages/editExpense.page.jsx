@@ -6,7 +6,7 @@ import {
     AdminContainer, 
     MainMenu, 
     BackButton, 
-    ExpensePartialForm
+    PaymentPartialForm
 } from '../components';
 import Paths from '../router/paths';
 
@@ -22,9 +22,9 @@ const EditExpensePage = ({ data, handlers }) => {
     >
         <h2>{'Editar despesa'}</h2>
         <Form onSubmit={event => handlers.editExpense(event)}>
-            <ExpensePartialForm
+            <PaymentPartialForm
                 handlers={handlers}
-                data={data}
+                payment={data.expense}
             />
             <Form.Row>
                 <Col>
@@ -32,8 +32,9 @@ const EditExpensePage = ({ data, handlers }) => {
                 </Col>
                 <Col>
                     <Button
+                        variant={'success'}
                         style={{ float: 'right' }}
-                        children={'Editar'}
+                        children={'Salvar'}
                         type={'submit'}
                     />
                 </Col>

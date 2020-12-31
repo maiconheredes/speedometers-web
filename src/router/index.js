@@ -17,6 +17,12 @@ import CreateCashierController from '../controllers/createCashier.controller';
 import EditCashierController from '../controllers/editCashier.controller';
 import ShowCashierController from '../controllers/showCashier.controller';
 import ListExpenseController from '../controllers/listExpense.controller';
+import ListRevenueController from '../controllers/listRevenue.controller';
+import CreateRevenueController from '../controllers/createRevenue.controller';
+import ShowRevenueController from '../controllers/showRevenue.controller';
+import EditRevenueController from '../controllers/editRevenue.controller';
+import ListServiceController from '../controllers/listService.controller';
+import CreateServiceController from '../controllers/createService.controller';
 
 
 const SpeedometerRouter = () => {
@@ -34,6 +40,12 @@ const SpeedometerRouter = () => {
                 <Route exact path={Paths.administration.cashier.create} children={<CreateCashierController />} />
                 <Route exact path={Paths.administration.cashier.show} children={<ShowCashierController />} />
                 <Route exact path={Paths.administration.cashier.edit} children={<EditCashierController />} />
+                <Route exact path={Paths.administration.revenue.index} children={<ListRevenueController />} />
+                <Route exact path={Paths.administration.revenue.create} children={<CreateRevenueController />} />
+                <Route exact path={Paths.administration.revenue.show} children={<ShowRevenueController />} />
+                <Route exact path={Paths.administration.revenue.edit} children={<EditRevenueController />} />
+                <Route exact path={Paths.administration.service.index} children={<ListServiceController />} />
+                <Route exact path={Paths.administration.service.create} children={<CreateServiceController />} />
                 <Route children={<Redirect to={Paths.login} />} />
             </Switch>
         </Router>
