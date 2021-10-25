@@ -2,7 +2,7 @@ import environment from './config';
 
 
 const requester = async (service, options = {}) => {
-    const { method, endpoint, source, port } = service;
+    const { method, endpoint, source } = service;
     const baseURL = environment[source];
 
     const {
@@ -19,7 +19,7 @@ const requester = async (service, options = {}) => {
 
     const config = {
         method,
-        url: `${port ? `${baseURL}:${port}/` : `${baseURL}/`}${endpoint}`,
+        url: `${`${baseURL}/`}${endpoint}`,
         body,
         headers,
         mode,
